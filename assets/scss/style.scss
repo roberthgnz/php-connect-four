@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 80%;
+  margin: 3rem auto;
+}
+
+.table {
+  width: 100%;
+  height: 70vh;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 1rem;
+  padding: 1rem;
+  background-color: blue;
+
+  .col {
+    display: grid;
+    grid-template-rows: repeat(7, 1fr);
+    grid-gap: 1rem;
+
+    button, .row {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    button {
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .row {
+      background-color: #fff;
+    }
+  }
+}
