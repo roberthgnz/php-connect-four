@@ -17,14 +17,16 @@
         session_start();
 
         $board = [
-            0 => ['', '', '', '', '', 'r'],
+            0 => ['', '', '', '', '', ''],
             1 => ['', '', '', '', '', ''],
             2 => ['', '', '', '', '', ''],
-            3 => ['', '', '', 'y', 'r', 'y'],
+            3 => ['', '', '', '', '', ''],
             4 => ['', '', '', '', '', ''],
             5 => ['', '', '', '', '', ''],
             6 => ['', '', '', '', '', '']
         ];
+
+        if (!isset($_SESSION['board'])) $_SESSION['board'] = $board;
 
         function createBoard($board)
         {
@@ -53,21 +55,28 @@
 
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
             if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
-            createBoard($board);
 
-            function getLastItem($key, $board)
+            if (isset($_SESSION['board'])) createBoard($_SESSION['board']);
+            else  createBoard($board);
+
+            function getLastPosition($key, $board)
             {
                 $i = 0;
                 $isLastItem = false;
-                while ($i++ < count($board[$key]) && !$isLastItem) {
+                while ($i < count($board[$key]) && !$isLastItem) {
+                    $i++;
                     if ($board[$key][$i] !== '') $isLastItem = true;
                 }
-                return $i - 1;
+                return --$i;
             }
 
             $key = array_keys($_POST)[0];
             if (array_key_exists($key, $board)) {
-                echo getLastItem($key, $board);
+                if (isset($_SESSION['board'])) {
+                    $lastPosition = getLastPosition($key, $_SESSION['board']);
+                    $_SESSION['board'][$key][$lastPosition] = 'r';
+                    createBoard($_SESSION['board']);
+                }
             }
         } else {
             header('location: index.php');
