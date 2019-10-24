@@ -17,10 +17,10 @@
         session_start();
 
         $board = [
-            0 => ['', '', '', 'y', 'r', 'r'],
+            0 => ['', '', '', '', '', 'r'],
             1 => ['', '', '', '', '', ''],
             2 => ['', '', '', '', '', ''],
-            3 => ['', '', '', 'y', '', ''],
+            3 => ['', '', '', 'y', 'r', 'y'],
             4 => ['', '', '', '', '', ''],
             5 => ['', '', '', '', '', ''],
             6 => ['', '', '', '', '', '']
@@ -55,12 +55,19 @@
             if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
             createBoard($board);
 
+            function getLastItem($key, $board)
+            {
+                $i = 0;
+                $isLastItem = false;
+                while ($i++ < count($board[$key]) && !$isLastItem) {
+                    if ($board[$key][$i] !== '') $isLastItem = true;
+                }
+                return $i - 1;
+            }
 
             $key = array_keys($_POST)[0];
             if (array_key_exists($key, $board)) {
-                for ($i = 0; $i < count($board[$key]); $i++) {
-                    echo $board[$key][$i];
-                }
+                echo getLastItem($key, $board);
             }
         } else {
             header('location: index.php');
