@@ -21,7 +21,8 @@
     grid-template-rows: repeat(7, 1fr);
     grid-gap: 1rem;
 
-    button, .row {
+    button,
+    .row {
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -38,6 +39,12 @@
 
     .row {
       background-color: #fff;
+      &.red {
+        background-color: red;
+      }
+      &.yellow {
+        background-color: yellow;
+      }
     }
   }
 }

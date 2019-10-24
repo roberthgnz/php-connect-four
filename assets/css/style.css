@@ -21,7 +21,8 @@
   grid-template-rows: repeat(7, 1fr);
   grid-gap: 1rem;
 }
-.board .col button, .board .col .row {
+.board .col button,
+.board .col .row {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -36,6 +37,12 @@
 }
 .board .col .row {
   background-color: #fff;
+}
+.board .col .row.red {
+  background-color: red;
+}
+.board .col .row.yellow {
+  background-color: yellow;
 }
 
 /*# sourceMappingURL=style.css.map */

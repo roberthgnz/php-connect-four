@@ -17,10 +17,10 @@
         session_start();
 
         $board = [
-            0 => ['', '', '', '', '', ''],
+            0 => ['', '', '', 'y', 'r', 'r'],
             1 => ['', '', '', '', '', ''],
             2 => ['', '', '', '', '', ''],
-            3 => ['', '', '', '', '', ''],
+            3 => ['', '', '', 'y', '', ''],
             4 => ['', '', '', '', '', ''],
             5 => ['', '', '', '', '', ''],
             6 => ['', '', '', '', '', '']
@@ -32,18 +32,40 @@
             for ($i = 0; $i < count($board); $i++) {
                 echo "<div class='col'>";
                 for ($j = 0; $j < count($board[$i]); $j++) {
+                    $color = getColor($board[$i][$j]);
                     if ($j == 0) echo "<button type='submit' name='$i'>+</button>";
-                    echo "<div class='row'></div>";
+                    echo "<div class='row $color'></div>";
                 }
                 echo "</div>";
             }
             echo "</form>";
         }
 
-        if (isset($_SESSION['board']) || isset($_POST['submit'])) {
-            if (!isset($_SESSION['board'])) $_SESSION['board'] = true;
-            createBoard($board);
+        function getColor($color)
+        {
+            switch ($color) {
+                case 'r':
+                    return 'red';
+                case 'y':
+                    return 'yellow';
+            }
         }
+
+        if (isset($_SESSION['start']) || isset($_POST['submit'])) {
+            if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
+            createBoard($board);
+
+
+            $key = array_keys($_POST)[0];
+            if (array_key_exists($key, $board)) {
+                for ($i = 0; $i < count($board[$key]); $i++) {
+                    echo $board[$key][$i];
+                }
+            }
+        } else {
+            header('location: index.php');
+        }
+
         ?>
 
     </main>

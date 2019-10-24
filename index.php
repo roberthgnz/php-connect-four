@@ -16,7 +16,7 @@
         <?php
         session_start();
 
-        if (isset($_SESSION['board'])) {
+        if (isset($_SESSION['start'])) {
             header('location: game.php');
         } else {
             echo '<form action="game.php" method="post">
