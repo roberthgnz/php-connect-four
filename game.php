@@ -12,9 +12,11 @@
 <body>
 
 
-    <main class="container">
+    <main class="main">
         <?php
         session_start();
+
+        if (!isset($_SESSION['turn'])) $_SESSION['turn'] = 'red';
 
         $board = [
             0 => ['', '', '', '', '', ''],
@@ -53,8 +55,23 @@
             }
         }
 
+        function getTurn()
+        {
+            if ($_SESSION['turn'] === 'red') {
+                $_SESSION['turn'] = 'yellow';
+                return 'r';
+            }
+            if ($_SESSION['turn'] === 'yellow') {
+                $_SESSION['turn'] = 'red';
+                return 'y';
+            }
+        }
+
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
             if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
+
+
+            if (!isset($_SESSION['turn'])) $_SESSION['turn'] = 'red';
 
             if (isset($_SESSION['board'])) createBoard($_SESSION['board']);
             else  createBoard($board);
@@ -72,9 +89,9 @@
 
             $key = array_keys($_POST)[0];
             if (array_key_exists($key, $board)) {
-                if (isset($_SESSION['board'])) {
+                if (isset($_SESSION['board']) && $_SESSION['board'][$key][0] === '') {
                     $lastPosition = getLastPosition($key, $_SESSION['board']);
-                    $_SESSION['board'][$key][$lastPosition] = 'r';
+                    $_SESSION['board'][$key][$lastPosition] = getTurn();
                     createBoard($_SESSION['board']);
                 }
             }
