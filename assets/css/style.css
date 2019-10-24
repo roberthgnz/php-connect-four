@@ -2,15 +2,13 @@
   box-sizing: border-box;
 }
 
-.container {
-  width: 80%;
-  margin: 3rem auto;
-}
-
 .board {
   position: absolute;
-  width: 100%;
-  height: 70vh;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 1rem;
@@ -45,5 +43,3 @@
 .board .col .row.yellow {
   background-color: yellow;
 }
-
-/*# sourceMappingURL=style.css.map */
