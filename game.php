@@ -16,28 +16,27 @@
         <?php
         session_start();
 
+        if (!isset($_SESSION['board'])) {
+            $_SESSION['board'] =  [
+                0 => ['', '', '', '', '', ''],
+                1 => ['', '', '', '', '', ''],
+                2 => ['', '', '', '', '', ''],
+                3 => ['', '', '', '', '', ''],
+                4 => ['', '', '', '', '', ''],
+                5 => ['', '', '', '', '', ''],
+                6 => ['', '', '', '', '', '']
+            ];
+        }
+
         if (!isset($_SESSION['turn'])) $_SESSION['turn'] = 'red';
 
-        $board = [
-            0 => ['', '', '', '', '', ''],
-            1 => ['', '', '', '', '', ''],
-            2 => ['', '', '', '', '', ''],
-            3 => ['', '', '', '', '', ''],
-            4 => ['', '', '', '', '', ''],
-            5 => ['', '', '', '', '', ''],
-            6 => ['', '', '', '', '', '']
-        ];
-
-        if (!isset($_SESSION['board'])) $_SESSION['board'] = $board;
-
-
-        function createBoard($board)
+        function createBoard()
         {
             echo "<form class='board' method='post'>";
-            for ($i = 0; $i < count($board); $i++) {
+            for ($i = 0; $i < count($_SESSION['board']); $i++) {
                 echo "<div class='col'>";
-                for ($j = 0; $j < count($board[$i]); $j++) {
-                    $color = getColor($board[$i][$j]);
+                for ($j = 0; $j < count($_SESSION['board'][$i]); $j++) {
+                    $color = getColor($_SESSION['board'][$i][$j]);
                     if ($j == 0) echo "<button type='submit' name='$i'>+</button>";
                     echo "<div class='row $color'></div>";
                 }
@@ -83,30 +82,30 @@
         if ($_SESSION['win'])  header('location: win.php');
 
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
+
             if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
 
             if (isset($_SESSION['board'])) createBoard($_SESSION['board']);
-            else  createBoard($board);
 
-            function getLastPosition($key, $board)
+            function getLastPosition($key)
             {
                 $i = 0;
                 $isLastItem = false;
-                while ($i < count($board[$key]) && !$isLastItem) {
+                while ($i < count($_SESSION['board'][$key]) && !$isLastItem) {
                     $i++;
-                    if ($board[$key][$i] !== '') $isLastItem = true;
+                    if ($_SESSION['board'][$key][$i] !== '') $isLastItem = true;
                 }
                 return --$i;
             }
 
             $key = array_keys($_POST)[0];
-            if (array_key_exists($key, $board)) {
+            if (array_key_exists($key, $_SESSION['board'])) {
                 if (isset($_SESSION['board']) && $_SESSION['board'][$key][0] === '') {
-                    
-                    $lastPosition = getLastPosition($key, $_SESSION['board']);
-                    
+
+                    $lastPosition = getLastPosition($key);
+
                     $_SESSION['board'][$key][$lastPosition] = getTurn();
-                    
+
                     createBoard($_SESSION['board']);
 
                     // Check if it's draw
