@@ -40,8 +40,6 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
-  height: 50%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 1rem;
@@ -49,6 +47,24 @@
   border-radius: 0.5rem;
   background-color: #3498db;
   box-shadow: 0 0.5rem 1.7rem #00000025;
+}
+@media (min-width: 768px) {
+  .board {
+    width: 60%;
+    height: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .board {
+    width: 70%;
+    height: 60%;
+  }
+}
+@media (min-width: 1200px) {
+  .board {
+    width: 45%;
+    height: 60%;
+  }
 }
 .board .col {
   display: grid;
