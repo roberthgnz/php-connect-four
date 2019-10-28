@@ -19,7 +19,7 @@
         if (isset($_SESSION['start'])) {
             header('location: game.php');
         } else {
-            echo '<form action="game.php" method="post">
+            echo '<form class="start" action="game.php" method="post">
                     <input type="submit" name="submit" value="Start Game">
                   </form>';
         }
