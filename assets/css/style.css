@@ -1,9 +1,38 @@
 * {
   box-sizing: border-box;
+  user-select: none;
 }
 
 .main h1 {
   text-align: center;
+}
+
+.main .start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.main .start input {
+  padding: 2rem 4rem;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  background: #8e2de2; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #4a00e0,
+    #8e2de2
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #4a00e0,
+    #8e2de2
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  box-shadow: 0 1rem 2rem #00000050;
+  cursor: pointer;
 }
 
 .board {
@@ -17,7 +46,9 @@
   grid-template-columns: repeat(7, 1fr);
   grid-gap: 1rem;
   padding: 1rem;
-  background-color: blue;
+  border-radius: 0.5rem;
+  background-color: #3498db;
+  box-shadow: 0 0.5rem 1.7rem #00000025;
 }
 .board .col {
   display: grid;
@@ -29,11 +60,14 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  text-align: center;
 }
 .board .col button {
   font-size: 1.5rem;
   border: none;
   cursor: pointer;
+  color: #34495e;
+  background: #ecf0f1;
 }
 .board .col button:focus {
   outline: none;
@@ -42,8 +76,8 @@
   background-color: #fff;
 }
 .board .col .row.red {
-  background-color: red;
+  background-color: #e74c3c;
 }
 .board .col .row.yellow {
-  background-color: yellow;
+  background-color: #f1c40f;
 }
