@@ -30,6 +30,7 @@
 
         if (!isset($_SESSION['board'])) $_SESSION['board'] = $board;
 
+
         function createBoard($board)
         {
             echo "<form class='board' method='post'>";
@@ -67,11 +68,22 @@
             }
         }
 
+        function isFullGrid()
+        {
+            $full = true;
+            $i = 0;
+            while ($i++ < count($_SESSION['board']) && $full) {
+                for ($j = 0; $j < count($_SESSION['board'][$i]); $j++) {
+                    if ($_SESSION['board'][$i][$j] === '') $full = false;
+                }
+            }
+            return $full;
+        }
+
+        if ($_SESSION['win'])  header('location: win.php');
+
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
             if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
-
-
-            if (!isset($_SESSION['turn'])) $_SESSION['turn'] = 'red';
 
             if (isset($_SESSION['board'])) createBoard($_SESSION['board']);
             else  createBoard($board);
@@ -90,9 +102,15 @@
             $key = array_keys($_POST)[0];
             if (array_key_exists($key, $board)) {
                 if (isset($_SESSION['board']) && $_SESSION['board'][$key][0] === '') {
+                    
                     $lastPosition = getLastPosition($key, $_SESSION['board']);
+                    
                     $_SESSION['board'][$key][$lastPosition] = getTurn();
+                    
                     createBoard($_SESSION['board']);
+
+                    // Check if it's draw
+                    if (isFullGrid()) header('location: win.php');
                 }
             }
         } else {
