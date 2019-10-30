@@ -38,7 +38,7 @@
                 for ($j = 0; $j < count($_SESSION['board'][$i]); $j++) {
                     $color = getColor($_SESSION['board'][$i][$j]);
                     if ($j == 0) echo "<button type='submit' name='$i'>+</button>";
-                    echo "<div class='row $color'></div>";
+                    echo "<div class='row $color'>[$i, $j]</div>";
                 }
                 echo "</div>";
             }
@@ -79,7 +79,13 @@
             return $full;
         }
 
-        if ($_SESSION['win'])  header('location: win.php');
+        function winner($count)
+        {
+            if ($count > 2) {
+                getTurn();
+                header('location: win.php');
+            }
+        }
 
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
 
@@ -107,6 +113,31 @@
                     $_SESSION['board'][$key][$lastPosition] = getTurn();
 
                     createBoard($_SESSION['board']);
+
+                    $count = 0;
+                    $lastIsSame = false;
+
+                    // Vertical winner
+                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                            if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
+                            else $count = 0;
+                            winner($count);
+                        };
+                    }
+
+                    // Horizontal winner
+                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                            if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
+                            else $count = 0;
+                            winner($count);
+                        };
+                    }
+
+                    // Diagonal winner 
+                    
+
 
                     // Check if it's draw
                     if (isFullGrid()) header('location: win.php');
