@@ -38,7 +38,7 @@
                 for ($j = 0; $j < count($_SESSION['board'][$i]); $j++) {
                     $color = getColor($_SESSION['board'][$i][$j]);
                     if ($j == 0) echo "<button type='submit' name='$i'>+</button>";
-                    echo "<div class='row $color'>[$i, $j]</div>";
+                    echo "<div class='row $color'></div>";
                 }
                 echo "</div>";
             }
@@ -87,6 +87,9 @@
             }
         }
 
+        function checkDiagonalLimit()
+        { }
+
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
 
             if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
@@ -118,26 +121,39 @@
                     $lastIsSame = false;
 
                     // Vertical winner
-                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
-                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
-                            if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
-                            else $count = 0;
-                            winner($count);
-                        };
-                    }
+                    // for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                    //     for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                    //         if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
+                    //         else $count = 0;
+                    //         winner($count);
+                    //     };
+                    // }
 
-                    // Horizontal winner
-                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
-                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
-                            if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
-                            else $count = 0;
-                            winner($count);
-                        };
-                    }
+                    // // Horizontal winner
+                    // for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                    //     for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                    //         if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
+                    //         else $count = 0;
+                    //         winner($count);
+                    //     };
+                    // }
 
                     // Diagonal winner 
-                    
-
+                    echo "<pre>";
+                    for ($i = 0; $i < count($_SESSION['board']) - 1; $i++) {
+                        for ($j = 0; $j < count($_SESSION['board'][$i]); $j++) {
+                            // left: top -> bottom
+                            if (($i >= 0 && $i < 7) && ($j < 5 && $j >= 0)) {
+                                $auxI = $i;
+                                $axuJ = $j;
+                                if ($i <= $j) {
+                                    if ($i == $j) echo "[$i][$j] ";
+                                }
+                            }
+                        }
+                        echo "<br/>";
+                    }
+                    echo "</pre>";
 
                     // Check if it's draw
                     if (isFullGrid()) header('location: win.php');
