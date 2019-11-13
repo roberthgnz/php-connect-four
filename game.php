@@ -121,39 +121,22 @@
                     $lastIsSame = false;
 
                     // Vertical winner
-                    // for ($i = 0; $i < count($_SESSION['board']); $i++) {
-                    //     for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
-                    //         if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
-                    //         else $count = 0;
-                    //         winner($count);
-                    //     };
-                    // }
+                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                            if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
+                            else $count = 0;
+                            winner($count);
+                        };
+                    }
 
                     // // Horizontal winner
-                    // for ($i = 0; $i < count($_SESSION['board']); $i++) {
-                    //     for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
-                    //         if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
-                    //         else $count = 0;
-                    //         winner($count);
-                    //     };
-                    // }
-
-                    // Diagonal winner 
-                    echo "<pre>";
-                    for ($i = 0; $i < count($_SESSION['board']) - 1; $i++) {
-                        for ($j = 0; $j < count($_SESSION['board'][$i]); $j++) {
-                            // left: top -> bottom
-                            if (($i >= 0 && $i < 7) && ($j < 5 && $j >= 0)) {
-                                $auxI = $i;
-                                $axuJ = $j;
-                                if ($i <= $j) {
-                                    if ($i == $j) echo "[$i][$j] ";
-                                }
-                            }
-                        }
-                        echo "<br/>";
+                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                            if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
+                            else $count = 0;
+                            winner($count);
+                        };
                     }
-                    echo "</pre>";
 
                     // Check if it's draw
                     if (isFullGrid()) header('location: win.php');
