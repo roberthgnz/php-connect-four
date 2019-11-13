@@ -79,7 +79,16 @@
             return $full;
         }
 
-        if ($_SESSION['win'])  header('location: win.php');
+        function winner($count)
+        {
+            if ($count > 2) {
+                getTurn();
+                header('location: win.php');
+            }
+        }
+
+        function checkDiagonalLimit()
+        { }
 
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
 
@@ -107,6 +116,27 @@
                     $_SESSION['board'][$key][$lastPosition] = getTurn();
 
                     createBoard($_SESSION['board']);
+
+                    $count = 0;
+                    $lastIsSame = false;
+
+                    // Vertical winner
+                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                            if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
+                            else $count = 0;
+                            winner($count);
+                        };
+                    }
+
+                    // // Horizontal winner
+                    for ($i = 0; $i < count($_SESSION['board']); $i++) {
+                        for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
+                            if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
+                            else $count = 0;
+                            winner($count);
+                        };
+                    }
 
                     // Check if it's draw
                     if (isFullGrid()) header('location: win.php');

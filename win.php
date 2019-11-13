@@ -9,7 +9,10 @@
 </head>
 
 <body>
-    <h1>YOU WIN!</h1>
+    <?php
+    session_start();
+    echo "<h1>" . $_SESSION['turn'] . "'s win!</h1>";
+    ?>
 </body>
 
 </html>
