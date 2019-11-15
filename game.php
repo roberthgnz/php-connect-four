@@ -87,31 +87,35 @@
             }
         }
 
-        function checkDiagonalLimit()
-        { }
-
         if (isset($_SESSION['start']) || isset($_POST['submit'])) {
 
             if (!isset($_SESSION['start'])) $_SESSION['start'] = true;
 
             if (isset($_SESSION['board'])) createBoard($_SESSION['board']);
 
-            function getLastPosition($key)
+            function getLastPosition($arr)
             {
-                $i = 0;
-                $isLastItem = false;
-                while ($i < count($_SESSION['board'][$key]) && !$isLastItem) {
-                    $i++;
-                    if ($_SESSION['board'][$key][$i] !== '') $isLastItem = true;
-                }
-                return --$i;
+                // $i = 0;
+                // $isLastItem = false;
+                // while (count($_SESSION['board'][$key]) >= $i && !$isLastItem) {
+                //     if ($_SESSION['board'][$key][$i] !== '') $isLastItem = true;
+                //     $i--;
+                // }
+                // $i = ($i * -1);
+                // return $i;
+                $lastR = array_search('r', $arr);
+                $lastY = array_search('y', $arr);
+                $last = $lastR > $lastY ? $lastY : $lastR;
+                return empty($last) ? count($arr) - 1 : $last;
             }
 
             $key = array_keys($_POST)[0];
             if (array_key_exists($key, $_SESSION['board'])) {
                 if (isset($_SESSION['board']) && $_SESSION['board'][$key][0] === '') {
 
-                    $lastPosition = getLastPosition($key);
+                    $lastPosition = getLastPosition($_SESSION['board'][$key]);
+
+                    echo $lastPosition;
 
                     $_SESSION['board'][$key][$lastPosition] = getTurn();
 
@@ -123,7 +127,7 @@
                     // Vertical winner
                     for ($i = 0; $i < count($_SESSION['board']); $i++) {
                         for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
-                            if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
+                            if ($j > 0) if ($_SESSION['board'][$i][$j] == $_SESSION['board'][$i][$j - 1] && $_SESSION['board'][$i][$j] != "")   $count++;
                             else $count = 0;
                             winner($count);
                         };
@@ -132,7 +136,7 @@
                     // // Horizontal winner
                     for ($i = 0; $i < count($_SESSION['board']); $i++) {
                         for ($j = 0; $j <  count($_SESSION['board'][$i]); $j++) {
-                            if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
+                            if ($j > 0 && $i < 6) if ($_SESSION['board'][$j][$i] == $_SESSION['board'][$j - 1][$i] && $_SESSION['board'][$j][$i] != "")   $count++;
                             else $count = 0;
                             winner($count);
                         };
