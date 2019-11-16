@@ -77,7 +77,6 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  text-align: center;
 }
 .board .col button {
   font-size: 1.5rem;
@@ -93,11 +92,37 @@
   background-color: #fff;
   box-shadow: inset 0 0 3px #000000;
 }
-.board .col .row.r {
+.board .col .row.r:not(.new),
+.board .col .row.r span {
   background: #b43729;
   background: linear-gradient(to bottom, #ff5845 0%, #b43729 100%);
 }
-.board .col .row.y {
+.board .col .row.y:not(.new),
+.board .col .row.y span {
   background: #be9c11;
   background: linear-gradient(to bottom, #ffd013 0%, #be9c11 100%);
+}
+.board .col:hover .row.empty {
+  background-color: #aaa4a4;
+}
+
+.board .col .row.new span {
+  display: block;
+  position: relative;
+  animation-name: anim;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: inset 0 0 3px #000000;
+}
+
+@keyframes anim {
+  0% {
+    transform: translateY(-1000%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

@@ -5,6 +5,8 @@ session_start();
 
 $cols = 7;
 $rows = 6;
+global $r;
+global $c;
 
 if (isset($_SESSION['win'])) header("location: index.php");
 
@@ -26,6 +28,7 @@ if (!isset($_SESSION['turn'])) $_SESSION['turn'] = 'r';
 
 if (isset($_GET['col'])) {
     $col = $_GET['col'];
+    $c = $col;
     $length = count($_SESSION['board'][$col]);
     // Comprobar que no se pasa el límite de las filas
     if ($length < $rows) {
@@ -37,6 +40,7 @@ if (isset($_GET['col'])) {
         ** etc
         */
         $row = 5 - $length;
+        $r = $row;
         $_SESSION['board'][$col][$row] = getTurn();
 
         // Horizontal winner
@@ -68,11 +72,13 @@ if (isset($_GET['col'])) {
                 <?php for ($j = 0; $j < $rows; $j++) :
                         if ($j == 0) echo "<button type='submit' name='col' value='$i'>+</button>";
                         ?>
-                    <div class="row <?php color($_SESSION['board'], $i, $j); ?>"></div>
+                    <div class="row <?php color($_SESSION['board'], $i, $j);
+                                            isNew($_SESSION['board'], $i, $j, $r, $c); ?>"><span></span></div>
                 <?php endfor; ?>
             </div>
         <?php endfor; ?>
     </form>
+    <script src="assets/js/index.js"></script>
 </body>
 
 </html>

@@ -6,6 +6,15 @@ function color($board, $i, $j)
     else echo "e";
 }
 
+
+// Agregar clase 'new' para hacer la animación
+function isNew($board, $i, $j, $r, $c)
+{
+    if (!empty($board[$i][$j])) {
+        if ($i == $c && $j == $r) echo " new";
+    }
+}
+
 function getTurn()
 {
     if ($_SESSION['turn'] === 'r') {
