@@ -6,6 +6,8 @@ session_start();
 $cols = 7;
 $rows = 6;
 
+if (isset($_SESSION['win'])) header("location: index.php");
+
 // Crear la sesión si aún no existe
 if (!isset($_SESSION['board'])) {
     $_SESSION['board'] = [
@@ -36,21 +38,16 @@ if (isset($_GET['col'])) {
         */
         $row = 5 - $length;
         $_SESSION['board'][$col][$row] = getTurn();
+
+        // Horizontal winner
+        getHorizontalWinner($cols, $row);
+
+        // Vertical winner
+        getVerticalWinner($rows, $col);
+
+        // Comprobar si hay empate
+        if (isFullGrid($_SESSION['board'])) header('location: index.php');
     }
-    // Comprobar si hay empate
-    if (isFullGrid($_SESSION['board'])) header('location: index.php');
-
-    $count = 0;
-
-    // Horizontal winner
-    for ($i = 5; $i >= 0; $i--) {
-        if (!empty($_SESSION['board'][$col][$i])) {
-            $auxI = $i + 1;
-            if ($auxI < 6) if ($_SESSION['board'][$col][$auxI] == $_SESSION['board'][$col][$i]) $count++;
-        }
-    }
-
-    if ($count == 3) echo "Ganador " . winner($count);
 }
 ?>
 <!DOCTYPE html>

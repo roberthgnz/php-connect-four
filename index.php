@@ -16,12 +16,14 @@
         <?php
         session_start();
 
-        if ($_GET['msg']) {
-            if ($_GET['msg'] == 'y') {
-                echo "<h1>Yellow player wins!</h1>";
-            }
-            if ($_GET['msg'] == 'r') {
-                echo "<h1>Red player wins!</h1>";
+        if (isset($_GET['msg'])) {
+            if ($_GET['msg']) {
+                if ($_GET['msg'] == 'y') {
+                    echo "<h1>Yellow player wins!</h1>";
+                }
+                if ($_GET['msg'] == 'r') {
+                    echo "<h1>Red player wins!</h1>";
+                }
             }
         }
 
