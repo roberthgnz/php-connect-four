@@ -85,6 +85,8 @@ function getDiagonalWinner($col, $row)
     $auxArr = [];
     $countTR = 0;
     $countTL = 0;
+    $countBR = 0;
+    $countBL = 0;
 
     for ($i = 0; $i < 7; $i++) {
         for ($j = 0; $j < 6; $j++) {
@@ -96,19 +98,32 @@ function getDiagonalWinner($col, $row)
 
     $i = 0;
     while ($i < 4) {
+        $auxRow = $row + $i;
         $auxColTR = $col + $i;
         $auxColTL = $col - $i;
-        $auxRow = $row + $i;
-        // Top - right
+        $auxRowBR = $row - $i;
+        $auxColBR = $col + $i;
+        // Top right
         if (($auxColTR + 1) < 7 && ($auxRow + 1) < 6) {
-            if ($auxArr[$auxColTR][$auxRow] == $auxArr[$auxColTR + 1][$auxRow + 1]) $countTR++;
+            if ($auxArr[$auxColTR][$auxRow] !== ' ' && $auxArr[$auxColTR][$auxRow] == $auxArr[$auxColTR + 1][$auxRow + 1]) $countTR++;
         }
-        // Top - left
+        // Top left
         if (($auxColTL - 1) > -1 && ($auxRow + 1) < 6) {
-            if ($auxArr[$auxColTL][$auxRow] == $auxArr[$auxColTL - 1][$auxRow + 1]) $countTL++;
+            if ($auxArr[$auxColTL][$auxRow] !== ' ' && $auxArr[$auxColTL][$auxRow] == $auxArr[$auxColTL - 1][$auxRow + 1]) $countTL++;
+        }
+        // Bottom right
+        if (($auxColBR + 1) < 7  && ($auxRowBR - 1) > -1) {
+            if ($auxArr[$auxColBR][$auxRowBR] !== ' ' && $auxArr[$auxColBR][$auxRowBR] == $auxArr[$auxColBR + 1][$auxRowBR - 1]) $countBR++;
+        }
+        // Bottom left
+        if ((($col - $i) - 1) > -1 && (($row - $i) - 1) > -1) {
+            if ($auxArr[$col - $i][$row - $i] !== ' ' && $auxArr[$col - $i][$row - $i] == $auxArr[($col - $i) - 1][($row - $i) - 1]) $countBL++;
         }
         $i++;
     }
+
     winner($countTR);
     winner($countTL);
+    winner($countBR);
+    winner($countBL);
 }
