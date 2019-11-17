@@ -8,8 +8,6 @@ $rows = 6;
 global $r;
 global $c;
 
-if (isset($_SESSION['win'])) header("location: index.php");
-
 // Crear la sesión si aún no existe
 if (!isset($_SESSION['board'])) {
     $_SESSION['board'] = [
@@ -22,6 +20,8 @@ if (!isset($_SESSION['board'])) {
         6 => [],
     ];
 }
+
+if (isset($_POST['start']))  $_SESSION['start'] = true;
 
 // Definir el primer turno
 if (!isset($_SESSION['turn'])) $_SESSION['turn'] = 'r';
@@ -49,8 +49,14 @@ if (isset($_GET['col'])) {
         // Vertical winner
         getVerticalWinner($rows, $col);
 
+        // Diagonal winner
+        getDiagonalWinner($col, $row);
+
         // Comprobar si hay empate
-        if (isFullGrid($_SESSION['board'])) header('location: index.php');
+        if (isFullGrid($_SESSION['board'])) {
+            session_destroy();
+            header('location: index.php?msg=' . 'e');
+        }
     }
 }
 ?>
@@ -66,18 +72,23 @@ if (isset($_GET['col'])) {
 </head>
 
 <body>
-    <form action="" class="board">
-        <?php for ($i = 0; $i < $cols; $i++) : ?>
-            <div class="col">
-                <?php for ($j = 0; $j < $rows; $j++) :
-                        if ($j == 0) echo "<button type='submit' name='col' value='$i'>+</button>";
-                        ?>
-                    <div class="row <?php color($_SESSION['board'], $i, $j);
-                                            isNew($_SESSION['board'], $i, $j, $r, $c); ?>"><span></span></div>
-                <?php endfor; ?>
-            </div>
-        <?php endfor; ?>
-    </form>
+    <?php if (isset($_SESSION['start'])) { ?>
+        <form action="" class="board">
+            <?php for ($i = 0; $i < $cols; $i++) : ?>
+                <div class="col">
+                    <?php for ($j = 0; $j < $rows; $j++) :
+                                if ($j == 0) echo "<button type='submit' name='col' value='$i'>+</button>";
+                                ?>
+                        <div class="row <?php color($_SESSION['board'], $i, $j);
+                                                    isNew($_SESSION['board'], $i, $j, $r, $c); ?>"><span></span></div>
+                    <?php endfor; ?>
+                </div>
+            <?php endfor; ?>
+        </form>
+    <?php } else {
+        session_destroy();
+        header('location: index.php');
+    } ?>
     <script src="assets/js/index.js"></script>
 </body>
 

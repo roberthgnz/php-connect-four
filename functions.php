@@ -42,8 +42,8 @@ function winner($count)
 {
     if ($count === 3) {
         getTurn();
-        $_SESSION['win'] = true;
         header("location: index.php?msg=" . $_SESSION['turn']);
+        session_destroy();
     }
 }
 
@@ -78,4 +78,37 @@ function getVerticalWinner($rows, $col)
         }
     }
     winner($count);
+}
+
+function getDiagonalWinner($col, $row)
+{
+    $auxArr = [];
+    $countTR = 0;
+    $countTL = 0;
+
+    for ($i = 0; $i < 7; $i++) {
+        for ($j = 0; $j < 6; $j++) {
+            if (!empty($_SESSION['board'][$i][$j])) {
+                $auxArr[$i][$j] = $_SESSION['board'][$i][$j];
+            } else $auxArr[$i][$j] = ' ';
+        }
+    }
+
+    $i = 0;
+    while ($i < 4) {
+        $auxColTR = $col + $i;
+        $auxColTL = $col - $i;
+        $auxRow = $row + $i;
+        // Top - right
+        if (($auxColTR + 1) < 7 && ($auxRow + 1) < 6) {
+            if ($auxArr[$auxColTR][$auxRow] == $auxArr[$auxColTR + 1][$auxRow + 1]) $countTR++;
+        }
+        // Top - left
+        if (($auxColTL - 1) > -1 && ($auxRow + 1) < 6) {
+            if ($auxArr[$auxColTL][$auxRow] == $auxArr[$auxColTL - 1][$auxRow + 1]) $countTL++;
+        }
+        $i++;
+    }
+    winner($countTR);
+    winner($countTL);
 }

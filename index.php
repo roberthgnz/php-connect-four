@@ -24,6 +24,9 @@
                 if ($_GET['msg'] == 'r') {
                     echo "<h1>Red player wins!</h1>";
                 }
+                if ($_GET['msg'] == 'e') {
+                    echo "<h1>It's a tie!</h1>";
+                }
             }
         }
 
@@ -31,7 +34,7 @@
             header('location: game.php');
         } else {
             echo '<form class="start" action="game.php" method="post">
-                    <input type="submit" name="submit" value="Start Game">
+                    <input type="submit" name="start" value="Start Game">
                   </form>';
         }
         ?>
