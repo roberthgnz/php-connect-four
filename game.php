@@ -79,7 +79,7 @@ if (isset($_GET['col'])) {
 
             <form action="" class="board">
                 <?php for ($i = 0; $i < $cols; $i++) : ?>
-                    <div class="col">
+                    <div class="col" data-col="<?= $i ?>">
                         <?php for ($j = 0; $j < $rows; $j++) :
                             if ($j == 0) echo "<button type='submit' name='col' value='$i'>+</button>";
                         ?>
