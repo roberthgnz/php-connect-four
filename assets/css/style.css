@@ -35,6 +35,18 @@
   cursor: pointer;
 }
 
+.container {
+  text-align: center;
+}
+
+.title.r {
+  color: #ff5845;
+}
+
+.title.y {
+  color: #ffd013;
+}
+
 .board {
   position: absolute;
   left: 50%;

@@ -61,30 +61,35 @@ if (isset($_GET['col'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Test</title>
+    <title>Game</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
     <?php if (isset($_SESSION['start'])) { ?>
-        <form action="" class="board">
-            <?php for ($i = 0; $i < $cols; $i++) : ?>
-                <div class="col">
-                    <?php for ($j = 0; $j < $rows; $j++) :
-                                if ($j == 0) echo "<button type='submit' name='col' value='$i'>+</button>";
-                                ?>
-                        <div class="row <?php color($_SESSION['board'], $i, $j);
-                                                    isNew($_SESSION['board'], $i, $j, $r, $c); ?>"><span></span></div>
-                    <?php endfor; ?>
-                </div>
-            <?php endfor; ?>
-        </form>
+        <div class="container">
+
+            <h1 class="title <?= $_SESSION['turn'] ?>"><?= $_SESSION['turn'] === 'r' ? "Red's turn" : "Yellow's turn" ?></h1>
+
+            <form action="" class="board">
+                <?php for ($i = 0; $i < $cols; $i++) : ?>
+                    <div class="col">
+                        <?php for ($j = 0; $j < $rows; $j++) :
+                            if ($j == 0) echo "<button type='submit' name='col' value='$i'>+</button>";
+                        ?>
+                            <div class="row <?php color($_SESSION['board'], $i, $j);
+                                            isNew($_SESSION['board'], $i, $j, $r, $c); ?>"><span></span></div>
+                        <?php endfor; ?>
+                    </div>
+                <?php endfor; ?>
+            </form>
+        </div>
     <?php } else {
         session_destroy();
         header('location: index.php');
